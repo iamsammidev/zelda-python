@@ -23,20 +23,29 @@ class Upgrade:
         self.selection_time = None
         self.can_move = True
 
+        # sound
+        self.sound = {
+            'switch': pygame.mixer.Sound('audio/switch.mp3'),
+            'click': pygame.mixer.Sound('audio/click.mp3'),
+        }
+
     def input(self):
         keys = pygame.key.get_pressed()
 
         if self.can_move:
             if keys[pygame.K_RIGHT] and self.selection_index < self.attribute_nr - 1:
+                self.sound['switch'].play()
                 self.selection_index += 1
                 self.can_move = False
                 self.selection_time = pygame.time.get_ticks()
             elif keys[pygame.K_LEFT] and self.selection_index >= 1:
+                self.sound['switch'].play()
                 self.selection_index -= 1
                 self.can_move = False
                 self.selection_time = pygame.time.get_ticks()
 
             if keys[pygame.K_SPACE]:
+                self.sound['click'].play()
                 self.can_move = False
                 self.selection_time = pygame.time.get_ticks()
                 self.item_list[self.selection_index]. trigger(self.player)
